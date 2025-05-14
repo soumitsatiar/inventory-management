@@ -10,7 +10,23 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container">
-        <a class="navbar-brand" href="#">Inventory Management</a>
+        <!--        <a class="navbar-brand" href="#">Inventory Management</a>-->
+
+        <a class="navbar-brand" href="#">
+            <div class="d-flex align-items-center gap-2">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-box d-inline-block align-text-top" viewBox="0 0 16 16">
+                    <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"/>
+                </svg>
+                <span>
+
+                    Inventory Management
+            </span>
+            </div>
+        </a>
+
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -19,32 +35,33 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../admin/addNewVendor">Add New Vendor</a>
+                    <a class="nav-link active" aria-current="page" href="">Dashboard</a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" href="../admin/addProduct">Add New Products</a>
+                    <a class="nav-link active" aria-current="page" href="../admin/addNewVendor">Add Vendor</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">View Inventory</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Add Products</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Products
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../admin/addProduct">Add Product</a></li>
+                        <li><a class="dropdown-item" href="../admin/viewAllProducts">Product Catalog</a></li>
+                    </ul>
                 </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
-                        Dropdown link
+                        Inventory
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="../admin/addProduct">View Inventory</a></li>
+                        <li><a class="dropdown-item" href="../admin/orderInventory">Order Inventory</a></li>
                     </ul>
                 </li>
+
             </ul>
         </div>
     </div>
