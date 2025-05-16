@@ -3,10 +3,9 @@ package org.example.inventory.viewController;
 import org.example.inventory.dtos.InventoryCartDTO;
 import org.example.inventory.dtos.ProductDTO;
 import org.example.inventory.entities.Product;
+import org.example.inventory.entities.PurchaseOrder;
 import org.example.inventory.entities.Vendor;
-import org.example.inventory.services.InventoryCartService;
-import org.example.inventory.services.ProductService;
-import org.example.inventory.services.VendorService;
+import org.example.inventory.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -29,6 +29,12 @@ public class vendorViewController {
 
     @Autowired
     private InventoryCartService inventoryCartService;
+
+    @Autowired
+    private PurchaseOrderService purchaseOrderService;
+
+    @Autowired
+    private InventoryService inventoryService;
 
     @GetMapping("/admin/addNewVendor")
     public String hello() {
@@ -98,6 +104,45 @@ public class vendorViewController {
             return "redirect:/admin/addProduct?error";
         }
         return "redirect:/admin/addProduct?success";
+    }
+
+    @GetMapping("/admin/viewAllPurchaseOrders")
+    public String viewAllPurchaseOrders(Model model) {
+        List<PurchaseOrder> purchaseOrders = purchaseOrderService.getAllPurchaseOrders();
+        Collections.reverse(purchaseOrders);
+        model.addAttribute("purchaseOrders", purchaseOrders);
+        return "purchaseOrderAll";
+    }
+
+    @GetMapping("/admin/cancelPurchaseOrder/{id}")
+    public String cancelPurchaseOrder(@PathVariable Long id) {
+        purchaseOrderService.cancelPurchaseOrder(id);
+        return "redirect:/admin/viewAllPurchaseOrders?cancelSuccess";
+    }
+
+    @GetMapping("/admin/approvePurchaseOrder/{id}")
+    public String approvePurchaseOrder(@PathVariable Long id) {
+
+        PurchaseOrder purchaseOrder = purchaseOrderService.getPurchaseOrderById(id);
+
+        if (purchaseOrder == null) {
+            return "redirect:/admin/viewAllPurchaseOrders?error";
+        }
+
+        List<Product> products = purchaseOrder.getProducts();
+
+        for (Product product : products) {
+            inventoryService.createInventory(product);
+        }
+
+        purchaseOrderService.completePurchaseOrder(id);
+        return "redirect:/admin/viewAllPurchaseOrders?approveSuccess";
+    }
+
+    @GetMapping("/admin/viewInventory")
+    public String viewInventory(Model model) {
+        model.addAttribute("inventories", inventoryService.getAllInventories());
+        return "viewInventory";
     }
 
 }

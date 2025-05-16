@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.lang.annotation.IncompleteAnnotationException;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +22,8 @@ public class Product {
     private String name;
     private String description;
     private Double price;
+
+    private Integer quantity = null;
 
     @ManyToOne
     @JoinColumn(name = "vendor_id")

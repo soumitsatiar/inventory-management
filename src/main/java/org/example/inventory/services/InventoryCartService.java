@@ -17,6 +17,9 @@ public class InventoryCartService {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private PurchaseOrderService purchaseOrderService;
+
     public InventoryCart addToCart(Long productId, int quantity) {
         // Check if the product exists
         Product p = productService.getProductById(productId);
@@ -50,5 +53,4 @@ public class InventoryCartService {
     public void deleteCart() {
         inventoryCartRepo.deleteAll();
     }
-
 }

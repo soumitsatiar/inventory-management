@@ -136,7 +136,7 @@
             </div>
             <div class="modal-body">
                 <form id="editProductForm">
-                    <input type="hidden" id="editProductId" name="id">
+                    <input type="hidden" id="editProductId" name="id" required>
 
                     <div class="mb-3">
                         <label for="editProductName" class="form-label">Product Name</label>
@@ -299,29 +299,42 @@
             const form = document.getElementById('editProductForm');
             if (form.checkValidity()) {
                 const productId = document.getElementById('editProductId').value;
+                const productName = document.getElementById('editProductName').value;
+                const productDescription = document.getElementById('editProductDescription').value;
+                const productPrice = document.getElementById('editProductPrice').value;
+                const vendorId = document.getElementById('editProductVendor').value;
+                const imageUrl = document.getElementById('editProductImage').value;
 
-                // Create FormData object
-                const formData = new FormData(form);
+                // Build the DTO as JSON
+                const productDTO = {
+                    id: productId,
+                    name: productName,
+                    description: productDescription,
+                    price: parseFloat(productPrice),
+                    vendorId: vendorId ? parseInt(vendorId) : null,
+                    imageUrl: imageUrl
+                };
 
-                // Submit the form using fetch
-                fetch(`/products/update/${productId}`, {
-                    method: 'POST',
-                    body: formData
+                fetch(`/api/v1/products/${productId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(productDTO)
                 })
-                    .then(response => {
+                    .then(async response => {
                         if (response.ok) {
-                            // Reload the page to show updated product
                             window.location.reload();
                         } else {
-                            alert('Failed to update product. Please try again.');
+                            const errorText = await response.text();
+                            alert('Failed to update product. Server response: ' + errorText);
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('An error occurred while updating the product.');
+                        alert('An error occurred while updating the product: ' + error);
                     });
             } else {
-                // Trigger form validation
                 form.reportValidity();
             }
         });
@@ -346,3 +359,4 @@
 </script>
 </body>
 </html>
+
