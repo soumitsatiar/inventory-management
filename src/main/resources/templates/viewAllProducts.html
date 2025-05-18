@@ -95,11 +95,11 @@
              th:data-description="${product.description}" th:data-price="${product.price}" th:data-id="${product.id}">
             <div class="card product-card">
                 <div class="card-img-container">
-                    <img src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQiTBlsAjqkT32Gufujnxr350alQTy0ninn6wb7moSxP6eBG1gz9OTRaaLu0h8o7ZoWTWmnkFy-L_C3kWiH322uDWSZi4DCYzWzoNHeXsUWfReZIjwmTHbl5Q"
+                    <img
+                         th:src="${product.getImgUrl()}"
                          alt="Product image"
                          th:alt="${product.name}"
                     >
-                    <!--                         th:src="${product.imageUrl != null ? product.imageUrl : 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQiTBlsAjqkT32Gufujnxr350alQTy0ninn6wb7moSxP6eBG1gz9OTRaaLu0h8o7ZoWTWmnkFy-L_C3kWiH322uDWSZi4DCYzWzoNHeXsUWfReZIjwmTHbl5Q'}"-->
                 </div>
                 <span class="badge bg-primary vendor-badge"
                       th:text="${product.vendor != null ? product.vendor.name : 'No Vendor'}">Vendor Name</span>
@@ -110,9 +110,11 @@
                         <span class="fs-5 fw-bold text-primary product-price"
                               th:text="${'₹' + #numbers.formatDecimal(product.price, 1, 2)}">₹99.99</span>
                         <div>
-                            <button type="button" class="btn btn-sm btn-outline-secondary edit-product-btn">Edit</button>
-                            <a th:href="@{../admin/deleteProduct/{id}(id=${product.id})}"
-                               class="btn btn-sm btn-outline-danger">Delete</a>
+                            <form th:action="@{/admin/editProduct/{id}(id=${product.id})}" method="get" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-secondary">Edit</button>
+                            </form>
+                            <a th:href="@{../admin/viewProduct/{id}(id=${product.id})}"
+                               class="btn btn-sm btn-info">View</a>
                         </div>
                     </div>
                 </div>
@@ -126,55 +128,6 @@
     </div>
 </div>
 
-<!-- Edit Product Modal -->
-<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editProductForm">
-                    <input type="hidden" id="editProductId" name="id" required>
-
-                    <div class="mb-3">
-                        <label for="editProductName" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="editProductName" name="name" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editProductDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="editProductDescription" name="description" rows="3" required></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editProductPrice" class="form-label">Price (₹)</label>
-                        <input type="number" class="form-control" id="editProductPrice" name="price" step="0.01" min="0" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editProductVendor" class="form-label">Vendor</label>
-                        <select class="form-select" id="editProductVendor" name="vendorId">
-                            <option value="">Select Vendor</option>
-                            <option th:each="vendor : ${vendors}" th:value="${vendor.id}"
-                                    th:text="${vendor.name}">Vendor Name</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editProductImage" class="form-label">Image URL</label>
-                        <input type="url" class="form-control" id="editProductImage" name="imageUrl">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="saveProductChanges">Save Changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -258,86 +211,6 @@
                 element.classList.add('highlight');
             }
         }
-
-        // Edit Product Functionality
-        document.querySelectorAll('.edit-product-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                // Get the parent product-item and extract data
-                const productItem = this.closest('.product-item');
-                const productId = productItem.getAttribute('data-id');
-                const productName = productItem.getAttribute('data-name');
-                const productDescription = productItem.getAttribute('data-description');
-                const productPrice = productItem.getAttribute('data-price');
-
-                // Set values in the modal form
-                document.getElementById('editProductId').value = productId;
-                document.getElementById('editProductName').value = productName;
-                document.getElementById('editProductDescription').value = productDescription;
-                document.getElementById('editProductPrice').value = productPrice;
-
-                // Get vendor information if available
-                const vendorBadge = productItem.querySelector('.vendor-badge');
-                if (vendorBadge) {
-                    const vendorName = vendorBadge.textContent;
-                    // Find and select corresponding vendor in dropdown if match exists
-                    const vendorSelect = document.getElementById('editProductVendor');
-                    for (let i = 0; i < vendorSelect.options.length; i++) {
-                        if (vendorSelect.options[i].text === vendorName) {
-                            vendorSelect.selectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-
-                // Show the modal
-                editProductModal.show();
-            });
-        });
-
-        // Save Product Changes
-        document.getElementById('saveProductChanges').addEventListener('click', function() {
-            const form = document.getElementById('editProductForm');
-            if (form.checkValidity()) {
-                const productId = document.getElementById('editProductId').value;
-                const productName = document.getElementById('editProductName').value;
-                const productDescription = document.getElementById('editProductDescription').value;
-                const productPrice = document.getElementById('editProductPrice').value;
-                const vendorId = document.getElementById('editProductVendor').value;
-                const imageUrl = document.getElementById('editProductImage').value;
-
-                // Build the DTO as JSON
-                const productDTO = {
-                    id: productId,
-                    name: productName,
-                    description: productDescription,
-                    price: parseFloat(productPrice),
-                    vendorId: vendorId ? parseInt(vendorId) : null,
-                    imageUrl: imageUrl
-                };
-
-                fetch(`/api/v1/products/${productId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(productDTO)
-                })
-                    .then(async response => {
-                        if (response.ok) {
-                            window.location.reload();
-                        } else {
-                            const errorText = await response.text();
-                            alert('Failed to update product. Server response: ' + errorText);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while updating the product: ' + error);
-                    });
-            } else {
-                form.reportValidity();
-            }
-        });
 
         // Event listeners for search
         searchButton.addEventListener('click', filterProducts);

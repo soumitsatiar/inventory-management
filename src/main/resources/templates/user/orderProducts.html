@@ -63,7 +63,7 @@
                              th:if="${inventory != null && inventory.product != null}">
                             <div class="card product-card h-100">
                                 <img class="card-img-top product-img"
-                                     src="https://via.placeholder.com/150"
+                                     th:src="${inventory.product.getImgUrl()}"
                                      th:alt="${inventory.product.name}">
                                 <div class="card-body">
                                     <h5 class="card-title" th:text="${inventory.product.name}">Product Name</h5>
@@ -83,15 +83,10 @@
                                 <div class="card-footer bg-transparent">
                                     <div class="d-flex justify-content-between">
                                         <div class="input-group input-group-sm" style="width: 120px">
-                                            <button class="btn btn-outline-secondary decrease-qty" type="button">-
-                                            </button>
                                             <input type="number" class="form-control text-center qty-input" min="0"
                                                    th:max="${inventory.quantity}" value="0"
                                                    th:attr="data-product-id=${inventory.product.id},data-max=${inventory.quantity}"
                                                    th:disabled="${inventory.quantity <= 0}">
-                                            <button class="btn btn-outline-secondary increase-qty" type="button"
-                                                    th:disabled="${inventory.quantity <= 0}">+
-                                            </button>
                                         </div>
                                         <button class="btn btn-primary btn-sm add-to-cart"
                                                 th:attr="data-product-id=${inventory.product.id},
@@ -106,7 +101,7 @@
                         </div>
 
                         <!-- Empty state message when no products available -->
-                        <div class="col-12" th:if="${inventories == null || inventories.empty}">
+                        <div class="col-12" th:if="${inventories == null || inventories.isEmpty()}">
                             <div class="alert alert-info">No products are currently available.</div>
                         </div>
                     </div>

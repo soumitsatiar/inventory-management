@@ -145,4 +145,34 @@ public class vendorViewController {
         return "viewInventory";
     }
 
+    @GetMapping("/admin/editProduct/{id}")
+    public String editProduct(@PathVariable Long id, Model model) {
+        Product product = productService.getProductById(id);
+        List<Vendor> vendors = vendorService.getAllVendors();
+        model.addAttribute("product", product);
+        model.addAttribute("vendors", vendors);
+        return "editProduct";
+    }
+
+    @PostMapping("/admin/editProduct/{id}")
+    public String updateProduct(@ModelAttribute ProductDTO product, @PathVariable Long id) {
+
+        Product product1 = productService.getProductById(id);
+
+        if (product1 == null) {
+            return "redirect:/admin/editProduct/" + id + "?error";
+        }
+
+        productService.updateProduct(id, product);
+
+        return "redirect:/admin/viewAllProducts?updateSuccess";
+    }
+
+    @GetMapping("/admin/viewProduct/{id}")
+    public String viewProduct(@PathVariable Long id, Model model) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        return "viewProduct";
+    }
+
 }

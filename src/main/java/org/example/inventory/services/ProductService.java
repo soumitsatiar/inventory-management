@@ -26,6 +26,7 @@ public class ProductService {
         newProduct.setDescription(product.getDescription());
         newProduct.setPrice(product.getPrice());
         newProduct.setVendor(vendor);
+        newProduct.setImgUrl(product.getImgUrl());
         return productRepo.save(newProduct);
     }
 
@@ -50,6 +51,7 @@ public class ProductService {
         newProduct.setDescription(product.getDescription());
         newProduct.setPrice(product.getPrice());
         newProduct.setVendor(vendor);
+        newProduct.setImgUrl(product.getImgUrl());
         return productRepo.save(newProduct);
     }
 }

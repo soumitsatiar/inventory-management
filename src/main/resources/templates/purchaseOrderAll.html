@@ -58,7 +58,7 @@
                         <td th:text="${#dates.format(order.createdDate, 'dd MMM yyyy, HH:mm')}"></td>
                         <td>
                             <ul class="list-unstyled mb-0">
-                                <li th:each="product : ${order.products}" th:text="${product.name}"></li>
+                                <li th:each="product : ${order.products}" th:text="${product.name + ' x ' + product.getQuantity()}"></li>
                             </ul>
                         </td>
                         <td th:text="${order.totalQuantity}"></td>

@@ -1,32 +1,32 @@
 -- Insert dummy grocery-related vendors
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Fresh Farms Produce', 'contact@freshfarms.com', '9876543210', '123 Agro Park, Bangalore 560001', 'GSTIN29AAFFF1234Z');
 
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Organic Harvest Co.', 'info@organicharvest.com', '8765432109', '456 Green Valley, Mumbai 400001', 'GSTIN27BOORG5678Y');
 
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Spice World Exports', 'sales@spiceworld.com', '7654321098', '789 Spice Market, Delhi 110001', 'GSTIN07CSPCE9012X');
 
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Daily Dairy Products', 'support@dailydairy.com', '6543210987', '321 Milk Colony, Chennai 600001', 'GSTIN33DDAIR3456W');
 
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Natures Basket Foods', 'eco@naturesbasket.com', '5432109876', '654 Organic Lane, Hyderabad 500001', 'GSTIN36ENBAS7890V');
 
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Premium Grains Supply', 'care@premiumgrains.com', '4321098765', '987 Grain Market, Pune 411001', 'GSTIN27FPGRA1234U');
 
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Freshly Packed Foods', 'help@freshpacked.com', '3210987654', '654 Packaging Zone, Kolkata 700001', 'GSTIN19GFPAK5678T');
 
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Sweet Treats Confectionery', 'info@sweettreats.co.in', '2109876543', '321 Sugar Lane, Ahmedabad 380001', 'GSTIN24HSTCF9012S');
 
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Frozen Foods Express', 'business@frozenfoods.com', '1098765432', '456 Cold Storage Road, Jaipur 302001', 'GSTIN08IFRZN3456R');
 
-INSERT INTO vendors (name, email, phone, address, gst_number) 
+INSERT INTO vendors (name, email, phone, address, gst_number)
 VALUES ('Bulk Grocers Wholesale', 'orders@bulkgrocers.com', '0987654321', '789 Wholesale Market, Lucknow 226001', 'GSTIN09JBULK7890Q');
 
 -- Fresh Farms Produce (Vendor ID: 1) Products

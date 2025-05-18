@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .registration-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-register {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container registration-container">
+        <h2 class="text-center mb-4">User Registration</h2>
+
+        <div class="alert alert-info" th:if="${param.exists != null}" th:text="'User Already Exists with this email'"></div>
+        <div class="alert alert-success" th:if="${param.success != null}" th:text="'User registered successfully'"></div>
+        <div class="alert alert-danger" th:if="${param.error != null}" th:text="'Error registering user'"></div>
+
+        <form th:action="@{/user/register}" method="post" class="needs-validation" novalidate>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" required>
+                <div class="invalid-feedback">First name is required</div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" required>
+                <div class="invalid-feedback">Last name is required</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                <div class="invalid-feedback">Please provide a valid email</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required minlength="6">
+                <div class="invalid-feedback">Password must be at least 6 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                <div class="invalid-feedback">Passwords do not match</div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                <div class="invalid-feedback">Address is required</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-register">Register</button>
+
+            <div class="text-center mt-3">
+                <p>Already have an account? <a th:href="@{/login}">Login here</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Form validation script
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+
+                        // Check if passwords match
+                        var password = document.getElementById('password');
+                        var confirmPassword = document.getElementById('confirmPassword');
+
+                        if (password.value !== confirmPassword.value) {
+                            confirmPassword.setCustomValidity("Passwords do not match");
+                            event.preventDefault();
+                            event.stopPropagation();
+                        } else {
+                            confirmPassword.setCustomValidity('');
+                        }
+
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+</body>
+</html>
+

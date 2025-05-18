@@ -8,7 +8,6 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 @Data
