@@ -4,7 +4,9 @@ import org.example.inventory.dtos.InventoryCartDTO;
 import org.example.inventory.dtos.ProductDTO;
 import org.example.inventory.entities.Product;
 import org.example.inventory.entities.PurchaseOrder;
+import org.example.inventory.entities.SalesOrder;
 import org.example.inventory.entities.Vendor;
+import org.example.inventory.repos.SalesOrderRepo;
 import org.example.inventory.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,9 @@ public class vendorViewController {
 
     @Autowired
     private InventoryService inventoryService;
+
+    @Autowired
+    private SalesOrderRepo salesOrderRepo;
 
     @GetMapping("/admin/addNewVendor")
     public String hello() {
@@ -173,6 +178,15 @@ public class vendorViewController {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "viewProduct";
+    }
+
+    @GetMapping("/admin/viewSalesOrders")
+    public String viewSalesOrders(Model model) {
+        List<SalesOrder> salesOrders = salesOrderRepo.findAll();
+        Collections.reverse(salesOrders);
+        model.addAttribute("salesOrder", salesOrders);
+        System.out.println(salesOrders);
+        return "salesOrder";
     }
 
 }
